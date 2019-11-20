@@ -10,6 +10,7 @@ import sys
 from scrapy.pipelines.images import ImagesPipeline
 from tangspiderframe.common.db import SSDBCon
 from tangspiderframe import settings
+from tangspiderframe.common.dingding import DingDing
 
 
 class TangspiderframePipeline(object):
@@ -20,16 +21,21 @@ class TangspiderframePipeline(object):
 
 class SSDBPipeline(object):
     def __init__(self):
-        self.ssdb_conn = None
+        pass
 
     def open_spider(self, spider):
         self.ssdb_conn = SSDBCon()
 
     def close_spider(self, spider):
-        # TODO 此处添加爬虫结束报警
+        dd = DingDing()
+        dd.send(spider.name, "完成")
         self.ssdb_conn.close()
 
     def process_item(self, item, spider):
+        if spider.name.endswith("link"):
+            if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
+                self.ssdb_conn.insert_to_list(spider.name, item["url"])
+                self.ssdb_conn.insert_finger(spider.name, item["url"])
         return item
 
 

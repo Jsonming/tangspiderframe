@@ -106,3 +106,6 @@ MYSQL_PORT = 6379
 MYSQL_DB_NAME = 'spiderframe'
 MYSQL_USER = 'sjtUser'
 MYSQL_PASSWORD = 'sjtUser!1234'
+
+# 钉钉通知人电话号码
+phone = 13126832709
