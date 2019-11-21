@@ -8,7 +8,7 @@ import os
 import sys
 
 from scrapy.pipelines.images import ImagesPipeline
-from tangspiderframe.common.db import SSDBCon
+from tangspiderframe.common.db import SSDBCon, MysqlCon
 from tangspiderframe import settings
 from tangspiderframe.common.dingding import DingDing
 
@@ -40,8 +40,23 @@ class SSDBPipeline(object):
 
 
 class MySQLPipeline(object):
+    def __init__(self):
+        pass
+
+    def open_spider(self, spider):
+        self.conn = MysqlCon()
+
+        # 文本类型爬虫，抓取类型为内容（content字段）自动创建表
+        if spider.name.startswith("text") and spider.name.endswith("content"):
+            if not self.conn.exist_table(spider.name):
+                self.conn.create_table(spider.name)
+
+    def close_spider(self, spider):
+        self.conn.close()
 
     def process_item(self, item, spider):
+        if not item.get("images"):
+            self.conn.insert_data(spider.name, item)
         return item
 
 
