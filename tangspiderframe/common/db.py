@@ -55,17 +55,15 @@ class SSDBCon(object):
         """
         return self.conn.lrange(name=name, start=start, end=end)
 
-    def insert_to_set(self, name, value):
+    def insert_to_hashmap(self, name, key, value=1):
         """
         插入到集合中,由于SSDB 没有set数据类型， 这里的集合采用排序集合sorted set
         :return:
         """
         if isinstance(value, str):
-            maping = {value: 1}
-        elif isinstance(value, list) or isinstance(value, tuple):
-            maping = {item: 1 for item in value}
-
-        self.conn.zadd(name, mapping=maping)
+            self.conn.hset(name=name, key=key, value=value)
+        else:
+            raise TypeError("expected string got %s".format(value))
 
     def insert_finger(self, name, value):
         """
@@ -74,7 +72,7 @@ class SSDBCon(object):
         :param value:
         :return:
         """
-        self.insert_to_set(name, md5(value))
+        self.insert_to_hashmap(name, md5(value))
 
     def exist_finger(self, name, value):
         """
@@ -83,7 +81,7 @@ class SSDBCon(object):
         :param value: 需要验证的值
         :return:
         """
-        return self.exist_in_set(name, md5(value))
+        return self.exist_in_hashmap(name, md5(value))
 
     def get_set(self, name, start=0, end=-1):
         """
@@ -93,14 +91,14 @@ class SSDBCon(object):
         """
         return self.conn.zrange(name=name, start=start, end=end)
 
-    def exist_in_set(self, name, value):
+    def exist_in_hashmap(self, name, key):
         """
         判断值是否在集合中
         :param name: 集合名称
         :param value: 值
         :return:
         """
-        return self.conn.zscore(name, value)
+        return self.conn.hexists(name=name, key=key)
 
     def close(self):
         """
