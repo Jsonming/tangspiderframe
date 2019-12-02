@@ -55,7 +55,7 @@ class MySQLPipeline(object):
         self.conn.close()
 
     def process_item(self, item, spider):
-        if not item.get("images"):
+        if not item.get("images") and not spider.name.endswith("link"):
             self.conn.insert_data(spider.name, item)
         return item
 
