@@ -60,10 +60,10 @@ class SSDBCon(object):
         插入到集合中,由于SSDB 没有set数据类型， 这里的集合采用排序集合sorted set
         :return:
         """
-        if isinstance(value, str):
+        if isinstance(key, str):
             self.conn.hset(name=name, key=key, value=value)
         else:
-            raise TypeError("expected string got %s".format(value))
+            raise TypeError("expected string got {}".format(key))
 
     def insert_finger(self, name, value):
         """
