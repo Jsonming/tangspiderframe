@@ -62,6 +62,6 @@ class DingDing(object):
         requests.post(url=url, headers=headers, json=json_content)
 
 
-if __name__ == '__main__':
-    dd = DingDing()
-    dd.send("爬虫", "完成")
+# if __name__ == '__main__':
+#     dd = DingDing()
+#     dd.send("爬虫", "完成")

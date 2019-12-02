@@ -20,7 +20,7 @@ class TextGreeceEnetLinkSpider(scrapy.Spider):
         links = response.xpath('//div[@class="box"]//ul/li//a//@href').extract()
         for link in links:
             item = TangspiderframeItem()
-            item['url'] = ''.join("http://www.enet.gr/"+link)
+            item['url'] = "http://www.enet.gr/"+link
             # print(item)
             yield item
 

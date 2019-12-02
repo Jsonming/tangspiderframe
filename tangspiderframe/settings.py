@@ -108,4 +108,4 @@ MYSQL_USER = 'sjtUser'
 MYSQL_PASSWORD = 'sjtUser!1234'
 
 # 钉钉通知人电话号码
-phone = 13126832709
+phone = 17749857569
