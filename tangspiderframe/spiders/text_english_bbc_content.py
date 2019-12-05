@@ -7,9 +7,11 @@ from scrapy_redis.spiders import RedisSpider
 class TextEnglishBbcContentSpider(RedisSpider):
     name = 'text_english_bbc_content'
     allowed_domains = ['www.bbc.com']
-    # start_urls = [
-    #     'https://www.bbc.com/news/business-{}'.format(i) for i in range(50471282, 50471283)
-    # ]
+    start_urls = [
+        # 'https://www.bbc.com/news/business-{}'.format(i) for i in range(50471282, 50471283)
+
+        "https://www.bbc.com/news/technology-50658787"
+    ]
 
     redis_key = "text_english_bbc_link"
 
@@ -28,9 +30,11 @@ class TextEnglishBbcContentSpider(RedisSpider):
         if content:
             content = " ".join(content)
 
+        catagpory = response.url.split("/")[-1].split("-")[0]
+
         item = TangspiderframeItem()
         item['url'] = response.url
-        item['category'] = "business"
+        item['category'] = catagpory
         item['title'] = ''.join(title)
         item['content'] = content
         yield item
