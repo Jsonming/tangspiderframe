@@ -31,7 +31,7 @@ def dingding_monitor(func):
 
         else:
             json_content = {'msgtype': "text",
-                            "text": {"content": "{file_name} 运行完成".format(file_name=func.__name__)},
+                            "text": {"content": "{file_name} 运行".format(file_name=func.__name__)},
                             "at": {
                                 "atMobiles": [
                                     phone

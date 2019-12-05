@@ -28,7 +28,7 @@ class SSDBPipeline(object):
 
     def close_spider(self, spider):
         dd = DingDing()
-        dd.send(spider.name, "完成")
+        dd.send(spider.name, "")
         self.ssdb_conn.close()
 
     def process_item(self, item, spider):
@@ -36,7 +36,11 @@ class SSDBPipeline(object):
             if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
                 self.ssdb_conn.insert_to_list(spider.name, item["url"])
                 self.ssdb_conn.insert_finger(spider.name, item["url"])
-        return item
+                return item
+        elif spider.name.endswith("content"):
+            if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
+                self.ssdb_conn.insert_finger(spider.name, item["url"])
+                return item
 
 
 class MySQLPipeline(object):
@@ -55,9 +59,10 @@ class MySQLPipeline(object):
         self.conn.close()
 
     def process_item(self, item, spider):
-        if not item.get("images") and not spider.name.endswith("link"):
-            self.conn.insert_data(spider.name, item)
-        return item
+        if item:
+            if not item.get("images") and not spider.name.endswith("link"):
+                self.conn.insert_data(spider.name, item)
+            return item
 
 
 class ImagePipeline(ImagesPipeline):
