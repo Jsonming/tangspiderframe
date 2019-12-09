@@ -20,14 +20,16 @@ class TangspiderframeItem(scrapy.Item):
     category = scrapy.Field()  # 文本信息源分类的类别
 
     # 链接类信息
-    url = scrapy.Field()  # 单个链接或多个链接
+    url = scrapy.Field()  # 文本链接
 
     # 文本类信息
     content = scrapy.Field()  # 文本内容
     title = scrapy.Field()  # 文本信息标题
+    repeat = scrapy.Field()  # content内容是否重复 用于在pipline中修改
 
 
 class ImgsItem(scrapy.Item):
     # 图片信息
+    category = scrapy.Field()
     image_urls = scrapy.Field()  # 这个图片的URL 类型:list
     images = scrapy.Field()  # 这个看源码是结果字段

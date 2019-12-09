@@ -14,7 +14,6 @@ from tangspiderframe.common.dingding import DingDing
 
 
 class TangspiderframePipeline(object):
-
     def process_item(self, item, spider):
         return item
 
@@ -33,14 +32,22 @@ class SSDBPipeline(object):
 
     def process_item(self, item, spider):
         if spider.name.endswith("link"):
+            # 如果链接的指纹没有在hashmap库中（说明没被抓过），将指纹存入hashmap库，将连接存入列表库
             if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
                 self.ssdb_conn.insert_to_list(spider.name, item["url"])
                 self.ssdb_conn.insert_finger(spider.name, item["url"])
-                return item
         elif spider.name.endswith("content"):
-            if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
-                self.ssdb_conn.insert_finger(spider.name, item["url"])
-                return item
+
+            # 如果没有抓到content 将连接存爬虫同名列表
+            if not item.get("content"):
+                self.ssdb_conn.insert_to_list(spider.name, item["url"])
+            else:
+                # 如果该content链接没有抓取过，将url存入指纹库中 如果已经抓过，将item中重复字段改为True
+                if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
+                    self.ssdb_conn.insert_finger(spider.name, item["url"])
+                else:
+                    item["repeat"] = True
+        return item
 
 
 class MySQLPipeline(object):
@@ -49,7 +56,6 @@ class MySQLPipeline(object):
 
     def open_spider(self, spider):
         self.conn = MysqlCon()
-
         # 文本类型爬虫，抓取类型为内容（content字段）自动创建表
         if spider.name.startswith("text") and spider.name.endswith("content"):
             if not self.conn.exist_table(spider.name):
@@ -59,10 +65,10 @@ class MySQLPipeline(object):
         self.conn.close()
 
     def process_item(self, item, spider):
-        if item:
-            if not item.get("images") and not spider.name.endswith("link"):
+        if spider.name.startswith("text") and spider.name.endswith("content"):
+            if not item.get("repeat"):  # 如果重复字段为空，表明不重复，插入mysql数据库中
                 self.conn.insert_data(spider.name, item)
-            return item
+        return item
 
 
 class ImagePipeline(ImagesPipeline):
