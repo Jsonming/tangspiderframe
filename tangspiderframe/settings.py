@@ -68,7 +68,7 @@ ITEM_PIPELINES = {
     'tangspiderframe.pipelines.TangspiderframePipeline': 300,
     'tangspiderframe.pipelines.SSDBPipeline': 350,
     'tangspiderframe.pipelines.MySQLPipeline': 400,
-    'tangspiderframe.pipelines.ImagePipeline': 450,
+    # 'tangspiderframe.pipelines.ImagePipeline': 450,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
