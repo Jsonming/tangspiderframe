@@ -23,12 +23,13 @@ class TextEnglishBbcLinkSpider(scrapy.Spider):
         # "https://www.bbc.com/news/science_and_environment"
         # "https://www.bbc.com/news/stories"
 
-        "https://www.bbc.com/news/entertainment_and_arts"
+        # "https://www.bbc.com/news/entertainment_and_arts"
+        "https://www.bbc.com/news/health"
     ]
 
     def __init__(self):
         self.type_id = "47639448"
-        self.t = "stories"
+        self.t = "health"
 
     def parse(self, response):
         links = response.xpath('//div[@class="lx-stream__feed"]//a/@href').extract()
