@@ -4,9 +4,9 @@ from tangspiderframe.items import TangspiderframeItem
 
 
 class TextEnglishChinadailyLinkSpider(scrapy.Spider):
-    name = 'text_english_chinadaily_culture_link'
+    name = 'text_english_chinadaily_travel_link'
     allowed_domains = ['www.chinadaily.com.cn']
-    start_urls = ['http://www.chinadaily.com.cn/culture']
+    start_urls = ['http://www.chinadaily.com.cn/travel']
 
     def parse(self, response):
         links = response.xpath('//div[@class="topNav2_art"]/ul/li/a/@href').extract()

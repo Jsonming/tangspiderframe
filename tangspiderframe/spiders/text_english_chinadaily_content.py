@@ -5,10 +5,10 @@ from scrapy_redis.spiders import RedisSpider
 
 
 class TextEnglishChinadailyContentSpider(RedisSpider):
-    name = 'text_english_chinadaily_culture_content'
+    name = 'text_english_chinadaily_travel_content'
     allowed_domains = ['www.chinadaily.com.cn']
     start_urls = ['http://www.chinadaily.com.cn/a/201911/19/WS5dd343c1a310cf3e35578441.html']
-    redis_key = "text_english_chinadaily_culture_link"
+    redis_key = "text_english_chinadaily_travel_link"
 
     custom_settings = {
         'REDIS_HOST': '123.56.11.156',
@@ -27,7 +27,7 @@ class TextEnglishChinadailyContentSpider(RedisSpider):
         contents = response.xpath('//div[@id="Content"]/p//text()').extract()
         paragraph = [content for content in contents]
         item = TangspiderframeItem()
-        item['category'] = "culture"
+        item['category'] = "travel"
         item['url'] = response.url
         item['title'] = title[0].strip() if title else ""
         item['content'] = " ".join(paragraph)
