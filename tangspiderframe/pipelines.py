@@ -36,8 +36,9 @@ class SSDBPipeline(object):
             if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
                 self.ssdb_conn.insert_to_list(spider.name, item["url"])
                 self.ssdb_conn.insert_finger(spider.name, item["url"])
+            else:
+                print("url重复")
         elif spider.name.endswith("content"):
-
             # 如果没有抓到content 将连接存爬虫同名列表
             if not item.get("content"):
                 self.ssdb_conn.insert_to_list(spider.name, item["url"])
@@ -68,6 +69,8 @@ class MySQLPipeline(object):
         if spider.name.startswith("text") and spider.name.endswith("content"):
             if not item.get("repeat"):  # 如果重复字段为空，表明不重复，插入mysql数据库中
                 self.conn.insert_data(spider.name, item)
+            else:
+                print("content已经抓过")
         return item
 
 
