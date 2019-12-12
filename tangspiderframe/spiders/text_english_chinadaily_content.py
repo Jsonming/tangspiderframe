@@ -5,10 +5,10 @@ from scrapy_redis.spiders import RedisSpider
 
 
 class TextEnglishChinadailyContentSpider(RedisSpider):
-    name = 'text_english_chinadaily_opinion_content'
+    name = 'text_english_chinadaily_business_content'
     allowed_domains = ['www.chinadaily.com.cn']
-    start_urls = ['http://www.chinadaily.com.cn/a/201911/19/WS5dd343c1a310cf3e35578441.html']
-    redis_key = "text_english_chinadaily_opinion_link"
+    start_urls = ['http://www.chinadaily.com.cn/a/201908/05/WS5d48087fa310cf3e35563fab.html']
+    redis_key = "text_english_chinadaily_business_link"
 
     custom_settings = {
         'REDIS_HOST': '123.56.11.156',
