@@ -4,9 +4,9 @@ from tangspiderframe.items import TangspiderframeItem
 
 
 class TextEnglishChinadailyLinkSpider(scrapy.Spider):
-    name = 'text_english_chinadaily_opinion_link'
+    name = 'text_english_chinadaily_business_link'
     allowed_domains = ['www.chinadaily.com.cn']
-    start_urls = ['http://www.chinadaily.com.cn/opinion']
+    start_urls = ['http://www.chinadaily.com.cn/business']
 
     def parse(self, response):
         links = response.xpath('//div[@class="topNav2_art"]/ul/li/a/@href').extract()
@@ -22,7 +22,7 @@ class TextEnglishChinadailyLinkSpider(scrapy.Spider):
             next_link = "http:" + next_link
             yield scrapy.Request(url=next_link, callback=self.parse_item, dont_filter=True)
 
-        links = response.xpath('//h4/a[@shape="rect"]/@href').extract()
+        links = response.xpath('//h4/a/@href').extract()
         for link in links:
             url = "http:" + link
             item = TangspiderframeItem()
