@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from tangspiderframe.items import TangspiderframeItem
-from scrapy import FormRequest
-import scrapy
 from scrapy_redis.spiders import RedisSpider
 
 class TextThailandThairathContentSpider(RedisSpider):
-    name = 'text_thailand_thairath_link'
+    name = 'text_thailand_thairath_content'
     allowed_domains = ['www.thairath.co.th']
     start_urls = ['https://www.thairath.co.th/news/royal/1724635']
     redis_key = "text_thailand_thairath_link"
