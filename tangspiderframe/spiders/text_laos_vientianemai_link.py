@@ -7,10 +7,6 @@ from tangspiderframe.items import TangspiderframeItem
 class TextLaosVientianemaiLinkSpider(scrapy.Spider):
     name = 'text_laos_vientianemai_link'
     allowed_domains = ['www.vientianemai.net']
-    start_urls = ['https://www.vientianemai.net/site/column/1.html',
-                  'https://www.vientianemai.net/site/column/2.html',
-                  'https://www.vientianemai.net/site/column/3.html',
-                  'https://www.vientianemai.net/site/column/10.html']
 
     def start_requests(self):
         for i in [1,2,3,10]:
