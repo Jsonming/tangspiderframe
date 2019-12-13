@@ -15,13 +15,19 @@ class TextLaosKplLinkSpider(scrapy.Spider):
                   'http://kpl.gov.la/News.aspx?cat=20',
                   'http://kpl.gov.la/News.aspx?cat=25']
 
-    def parse(self, response):
-        next_links = response.xpath('//a[@class="page-link next"]/@href').extract()
-        for next_link in next_links:
-            next_link = "http://kpl.gov.la/"+next_link
-            yield scrapy.Request(url=next_link, callback=self.parse, dont_filter=True)
+    def start_requests(self):
+        for i in [3,4,5,18,26,19,20,25]:
+            for j in range(1,1470):
+                url = 'http://kpl.gov.la/news.aspx?cat={i}&page={j}'.format(i=i,j=j)
+                yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
 
-        links = response.xpath('//div[@class="title-news"]/a//@href').extract()
+    def parse(self, response):
+        # next_links = response.xpath('//a[@class="page-link next"]/@href').extract()
+        # for next_link in next_links:
+        #     next_link = "http://kpl.gov.la/"+next_link
+        #     yield scrapy.Request(url=next_link, callback=self.parse, dont_filter=True)
+
+        links = response.xpath('//div[@class="box-list-news"]//a//@href').extract()
         for pattern in links:
             link = "http://kpl.gov.la/"+pattern
 

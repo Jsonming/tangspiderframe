@@ -5,7 +5,7 @@ from scrapy_redis.spiders import RedisSpider
 class TextLaosKplContentSpider(RedisSpider):
     name = 'text_laos_kpl_content'
     allowed_domains = ['kpl.gov.la']
-    # start_urls = ['https://www.vientianemai.net/khao/23041.html']
+    start_urls = ['http://kpl.gov.la/detail.aspx?id=49759']
     redis_key = "text_laos_kpl_link"
 
     custom_settings = {
@@ -27,7 +27,9 @@ class TextLaosKplContentSpider(RedisSpider):
         content = content.replace("\t", "  ")
         item = TangspiderframeItem()
         item['url'] = response.url
-        item['category'] = response.url.split('/')[3]
+
+        # item['category'] = response.url.split('/')[3]
+
         item['title'] = ''.join(title)
         item['content'] = content
         # print(item)

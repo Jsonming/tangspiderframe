@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import json
 from tangspiderframe.items import TangspiderframeItem
 
 

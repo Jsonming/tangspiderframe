@@ -25,10 +25,10 @@ class SSDBPipeline(object):
     def open_spider(self, spider):
         self.ssdb_conn = SSDBCon()
 
-    def close_spider(self, spider):
-        dd = DingDing()
-        dd.send(spider.name, "完成")
-        self.ssdb_conn.close()
+    # def close_spider(self, spider):
+    #     dd = DingDing()
+    #     dd.send(spider.name, "完成")
+    #     self.ssdb_conn.close()
 
     def process_item(self, item, spider):
         if spider.name.endswith("link"):

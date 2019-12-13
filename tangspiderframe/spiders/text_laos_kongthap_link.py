@@ -26,8 +26,8 @@ class TextLaosKongthapLinkSpider(scrapy.Spider):
 
             item = TangspiderframeItem()
             item['url'] = link
-            # print(item)
-            yield item
+            print(item)
+            # yield item
 
 
 
