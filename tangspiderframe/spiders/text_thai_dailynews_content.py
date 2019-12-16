@@ -5,9 +5,9 @@ from scrapy_redis.spiders import RedisSpider
 
 
 class TextThaiDailynewsContentSpider(RedisSpider):
-    name = 'text_thai_dailynews_economic_content'
+    name = 'text_thai_dailynews_agriculture_content'
     allowed_domains = ['www.dailynews.co.th']
-    redis_key = "text_thai_dailynews_economic_link"
+    redis_key = "text_thai_dailynews_agriculture_link"
 
     custom_settings = {
         'REDIS_HOST': '123.56.11.156',
