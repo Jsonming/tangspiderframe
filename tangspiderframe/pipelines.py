@@ -11,10 +11,24 @@ from scrapy.pipelines.images import ImagesPipeline
 from tangspiderframe.common.db import SSDBCon, MysqlCon
 from tangspiderframe import settings
 from tangspiderframe.common.dingding import DingDing
+from scrapy.exporters import JsonItemExporter
 
 
 class TangspiderframePipeline(object):
+    def __init__(self):
+        file_path = settings.FILE_STORE
+
+        self.file = open(file_path + r'result.json', 'wb')
+        self.exporter = JsonItemExporter(self.file, encoding="utf-8", ensure_ascii=False)
+        self.exporter.start_exporting()
+
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.file.close()
+
     def process_item(self, item, spider):
+        if spider.name.endswith("local"):
+            self.exporter.export_item(item)
         return item
 
 

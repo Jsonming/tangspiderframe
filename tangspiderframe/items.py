@@ -27,6 +27,9 @@ class TangspiderframeItem(scrapy.Item):
     title = scrapy.Field()  # 文本信息标题
     repeat = scrapy.Field()  # content内容是否重复 用于在pipline中修改
 
+    # 一次性抓取任务需要用的关键词字段
+    keyword = scrapy.Field()
+
 
 class ImgsItem(scrapy.Item):
     # 图片信息

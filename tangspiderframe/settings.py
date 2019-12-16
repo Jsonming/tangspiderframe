@@ -95,6 +95,7 @@ ITEM_PIPELINES = {
 
 # storage image path
 IMAGES_STORE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tangspiderframe/files/image')
+FILE_STORE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'tangspiderframe/files/')
 
 # ssdb config
 SSDB_HOST = "123.56.11.156"
