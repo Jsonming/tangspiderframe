@@ -15,7 +15,6 @@ class TextEnglishChinadailyLinkSpider(scrapy.Spider):
                 link = "http:" + link
                 yield scrapy.Request(url=link, callback=self.parse_item, dont_filter=True)
 
-
     def parse_item(self, response):
         next_links = response.xpath('//div[@id="div_currpage"]/a[@class="pagestyle"]/@href').extract()
         for next_link in next_links:
