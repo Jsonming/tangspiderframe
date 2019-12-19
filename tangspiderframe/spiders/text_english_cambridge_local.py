@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import re
 import scrapy
 from tangspiderframe.items import TangspiderframeItem
 
@@ -11,16 +12,20 @@ class TextEnglishCambridgeLocalSpider(scrapy.Spider):
 
     def start_requests(self):
         with open(r"D:\datatang\tangspiderframe\tangspiderframe\files\words.txt", 'r', encoding='utf8')as f:
-            for word in f:
+            data = f.readlines()
+            for word in data:
                 url = "https://dictionary.cambridge.org/dictionary/english/{}".format(word.strip())
                 yield scrapy.Request(url=url, dont_filter=True, meta={"word": word.strip()})
 
     def parse(self, response):
         pron = {"uk": "", "us": ""}
-        pron["uk"] = "".join(response.xpath(
-            '//*[@id="page-content"]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[2]/span[1]/span[@class="pron dpron"]/span//text()').extract())
-        pron["us"] = "".join(response.xpath(
-            '//*[@id="page-content"]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[2]/span[2]/span[@class="pron dpron"]/span//text()').extract())
+        header = response.xpath('//div[@class="pos-header dpos-h"]')
+        if header:
+            uk = header[0].xpath('./span[@class="uk dpron-i "]//span[@class="pron dpron"]//text()').extract()
+            pron["uk"] = re.findall("/(.*?)/", "".join(uk))
+
+            us = header[0].xpath('./span[@class="us dpron-i "]//span[@class="pron dpron"]//text()').extract()
+            pron["us"] = re.findall("/(.*?)/", "".join(us))
 
         item = TangspiderframeItem()
         item['keyword'] = response.meta.get("word")
