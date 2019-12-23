@@ -14,7 +14,6 @@ class TextPakistanExpressLinkSpider(scrapy.Spider):
     #     'https://www.express.pk/health/',
     #     'https://www.express.pk/science/',
     #     'https://www.express.pk/business/',
-    #     'https://www.express.pk/videos/',
     #     'https://www.express.pk/blog/',
     # ]
 
