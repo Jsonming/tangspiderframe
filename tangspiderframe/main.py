@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2019/11/20 19:55
 # @Author  : yangmingming
-# @Site    : 
+# @Site    : ww
 # @File    : main.py
 # @Software: PyCharm
 
 from scrapy import cmdline
 
-cmdline.execute("scrapy crawl text_vietnam_vov_link".split())
+cmdline.execute("scrapy crawl video_weibo_link".split())
