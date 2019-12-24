@@ -4,10 +4,9 @@ from scrapy_redis.spiders import RedisSpider
 
 
 class TextCanadaJournaldemontrealContentSpider(RedisSpider):
-    name = 'text_canada_journaldemontreal_content'
-
-    start_urls = ['https://www.journaldemontreal.com/2011/07/15/une-recompense-pour-decouvrir-le-meurtrier-de-tiffany-morrison']
-    redis_key = "text_canada_journaldemontreal_sports_link"
+    name = 'text_canada_journaldemontreal_porte_content'
+    start_urls = ['https://www.journaldemontreal.com/2019/12/23/le-conte-quebecois-du-loup-garou']
+    redis_key = "text_canada_journaldemontreal_5_link"
 
 
 
@@ -29,7 +28,7 @@ class TextCanadaJournaldemontrealContentSpider(RedisSpider):
         content = content.replace("\t", "  ")
         item = TangspiderframeItem()
         item['url'] = response.url
-        # item['category'] = response.url.split('/')[3]
+        item['category'] = "5-minutes"
         item['title'] = ''.join(title)
         item['content'] = content
         # print(item)
