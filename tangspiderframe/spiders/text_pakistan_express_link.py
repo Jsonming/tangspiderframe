@@ -5,7 +5,8 @@ from tangspiderframe.items import TangspiderframeItem
 
 class TextPakistanExpressLinkSpider(scrapy.Spider):
     name = 'text_pakistan_express_sports_link'
-    handle_httpstatus_list = [404]
+    handle_httpstatus_list = [404,429]
+    # time.sleep()
 
     # urls = [
     #     'https://www.express.pk/sports/',
