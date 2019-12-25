@@ -9,8 +9,8 @@ class TextPhilippinesAbanteLinkSpider(scrapy.Spider):
 
     def parse(self, response):
         links = response.xpath('//ul[@class="main-menu menu bsm-pure clearfix"]/li/a/@href').extract()
-        for link in links:
-            for i in range(1,3000):
+        for i in range(1, 3000):
+            for link in links:
                 link = link + "/page/{i}".format(i=i)
                 yield scrapy.Request(url=link, callback=self.parse_url, dont_filter=True)
 
