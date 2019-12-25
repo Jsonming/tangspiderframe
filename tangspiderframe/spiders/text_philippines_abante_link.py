@@ -10,12 +10,14 @@ class TextPhilippinesAbanteLinkSpider(scrapy.Spider):
     def parse(self, response):
         links = response.xpath('//ul[@class="main-menu menu bsm-pure clearfix"]/li/a/@href').extract()
         for link in links:
-            yield scrapy.Request(url=link, callback=self.parse_url, dont_filter=True)
+            for i in range(1,3000):
+                link = link + "/page/{i}".format(i=i)
+                yield scrapy.Request(url=link, callback=self.parse_url, dont_filter=True)
 
     def parse_url(self, response):
-        next_links = response.xpath('//a[@class="next page-numbers"]/@href').extract()
-        for next_link in next_links:
-            yield scrapy.Request(url=next_link, callback=self.parse_url, dont_filter=True)
+        # next_links = response.xpath('//a[(contains(@class, "btn-bs-pagination"))]/@href').extract()
+        # for next_link in next_links:
+        #     yield scrapy.Request(url=next_link, callback=self.parse_url, dont_filter=True)
 
         links = response.xpath('//h2/a[@class="post-title post-url"]/@href').extract()
         for link in links:
