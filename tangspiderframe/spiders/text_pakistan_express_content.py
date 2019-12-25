@@ -8,11 +8,11 @@ import scrapy
 
 
 class TextPakistanExpressContentSpider(RedisSpider):
-    name = 'text_pakistan_express_health_content'
+    name = 'text_pakistan_express_blog_content'
     handle_httpstatus_list = [429,301]
 
     start_urls = ['https://www.express.pk/story/1807726/509']
-    redis_key = "text_pakistan_express_health_link"
+    redis_key = "text_pakistan_express_blog_link"
 
     custom_settings = {
         'REDIS_HOST': '123.56.11.156',
@@ -70,7 +70,7 @@ class TextPakistanExpressContentSpider(RedisSpider):
         content = content.replace("\t", "  ")
         item = TangspiderframeItem()
         item['url'] = response.url
-        item['category'] = "health"
+        item['category'] = "blog"
         item['title'] = title[0]
         item['content'] = content
         # print(item)
