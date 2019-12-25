@@ -4,7 +4,7 @@ from tangspiderframe.items import TangspiderframeItem
 
 
 class TextPakistanExpressLinkSpider(scrapy.Spider):
-    name = 'text_pakistan_express_weird_link'
+    name = 'text_pakistan_express_health_link'
     handle_httpstatus_list = [404,429]
     # time.sleep()
 
@@ -20,7 +20,7 @@ class TextPakistanExpressLinkSpider(scrapy.Spider):
 
     def start_requests(self):
         for i in range(1,300):
-            url = "https://www.express.pk/weird-news/archives/?page={i}".format(i=i)
+            url = "https://www.express.pk/health/archives/?page={i}".format(i=i)
             yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
