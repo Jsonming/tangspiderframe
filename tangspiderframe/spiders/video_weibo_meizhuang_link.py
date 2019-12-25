@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import time
+import os
+import youtube_dl
+import shutil
 import requests
 import json
 import re
@@ -84,6 +86,20 @@ class VideoWeiboLinkSpider(scrapy.Spider):
 
     # start_urls = ["https://www.weibo.com/video/aj/second?ajwvr=6&type=icon&second_level_channel_id=4379553112491547&editor_recommend_id=&since_id=4451165799120907&__rnd=1576742798962"
 # ]
+
+    def download(youtube_url):
+        ydl_opts = {
+            # outtmpl 格式化下载后的文件名，避免默认文件名太长无法保存
+            'outtmpl': '%(id)s%(ext)s'
+        }
+
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([youtube_url])
+            path = os.getcwd()
+            for file in os.listdir(path):
+                if file.endswith("mp4"):
+                    shutil.move(path + "\\" + file, "E:\\video" + "\\" + file)
+
     def start_requests(self):
         session = requests.session()
         start_url = "https://www.weibo.com/video/second?curr_tab=channel&type=icon&second_level_channel_id=4379553112491547&first_level_channel_id=4379553112491541&first_level_channel_name=时尚美妆&page_title=美妆教程"
@@ -131,6 +147,7 @@ class VideoWeiboLinkSpider(scrapy.Spider):
         for pattern in patterns:
             pattern = urllib.parse.unquote(pattern)
             link = "http://f.video.weibocdn.com/" + pattern
+            self.download(link)
             item = TangspiderframeItem()
             item['url'] = link
             # print(item)
