@@ -19,9 +19,6 @@ class TextEnglishChinadailyContentSpider(RedisSpider):
         },
     }
 
-
-
-
     def parse(self, response):
         title = response.xpath("//h1/text()").extract()
         contents = response.xpath('//div[@id="Content"]/p//text()').extract()
@@ -32,4 +29,3 @@ class TextEnglishChinadailyContentSpider(RedisSpider):
         item['title'] = title[0].strip() if title else ""
         item['content'] = " ".join(paragraph)
         yield item
-
