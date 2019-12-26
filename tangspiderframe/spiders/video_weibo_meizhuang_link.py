@@ -98,7 +98,7 @@ class VideoWeiboLinkSpider(scrapy.Spider):
             path = os.getcwd()
             for file in os.listdir(path):
                 if file.endswith("mp4"):
-                    shutil.move(path + "\\" + file, "E:\\video" + "\\" + file)
+                    shutil.move(path + "\\" + file, "//data/video" + "/" + file)
 
     def start_requests(self):
         session = requests.session()
