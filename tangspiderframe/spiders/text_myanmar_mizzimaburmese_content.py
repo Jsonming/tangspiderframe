@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from tangspiderframe.items import TangspiderframeItem
 from scrapy_redis.spiders import RedisSpider
+import myanmar
+from myanmar import converter
 
 
-class TextPhilippinesAbanteContentSpider(RedisSpider):
-    name = 'text_philippines_abante_content'
+class TextMyanmarMizzimaburmeseContentSpider(RedisSpider):
+    name = 'text_myanmar_mizzimaburmese_content'
 
     start_urls = ['https://www.abante.com.ph/schedule-sa-mga-bangko-karong-holiday-season.htm']
-    redis_key = "text_philippines_abante_link"
+    redis_key = "text_myanmar_mizzimaburmese_link"
 
 
 
@@ -22,11 +24,12 @@ class TextPhilippinesAbanteContentSpider(RedisSpider):
 
 
     def parse(self, response):
-        title = response.xpath('//h1//text()').extract()
-        content = response.xpath('//p//text()').extract()
+        title = response.xpath('//div[@class="news-details-title"]//text()').extract()
+        content = response.xpath('//p/text()').extract()
         content = ''.join(content)
         content = content.replace("\n", "  ")
         content = content.replace("\t", "  ")
+        content = myanmar.converter.convert(content,'unicode', 'zawgyi')
         item = TangspiderframeItem()
         item['url'] = response.url
         # item['category'] = response.url.split('/')[3]
