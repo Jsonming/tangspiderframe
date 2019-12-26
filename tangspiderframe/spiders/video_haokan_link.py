@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import os
+import youtube_dl
+import shutil
 import json
 import time
 from tangspiderframe.items import TangspiderframeItem
@@ -29,6 +32,19 @@ class VideoHaoKanLinkSpider(scrapy.Spider):
     #         item['url'] = link
     #         # print(item)
     #         yield item
+    def download(self,youtube_url):
+        ydl_opts = {
+            # outtmpl 格式化下载后的文件名，避免默认文件名太长无法保存
+            'outtmpl': '%(id)s%(ext)s'
+        }
+
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([youtube_url])
+            path = os.getcwd()
+            for file in os.listdir(path):
+                if file.endswith("mp4"):
+                    shutil.move(path + "/" + file, "/data/haokan" + "/" + file)
+
 
     def start_requests(self):
         for i in range(0,100):
@@ -42,6 +58,8 @@ class VideoHaoKanLinkSpider(scrapy.Spider):
         url_lists = data["response"]["videos"]
         for url_list in url_lists:
             url = url_list["play_url"]
+            self.youtube_url = url
+            self.download(self.youtube_url)
             item = TangspiderframeItem()
             item['url'] = url
             # print(item)
