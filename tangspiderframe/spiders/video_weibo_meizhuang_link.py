@@ -87,7 +87,7 @@ class VideoWeiboLinkSpider(scrapy.Spider):
     # start_urls = ["https://www.weibo.com/video/aj/second?ajwvr=6&type=icon&second_level_channel_id=4379553112491547&editor_recommend_id=&since_id=4451165799120907&__rnd=1576742798962"
 # ]
 
-    def download(youtube_url):
+    def download(self,youtube_url):
         ydl_opts = {
             # outtmpl 格式化下载后的文件名，避免默认文件名太长无法保存
             'outtmpl': '%(id)s%(ext)s'
@@ -147,7 +147,8 @@ class VideoWeiboLinkSpider(scrapy.Spider):
         for pattern in patterns:
             pattern = urllib.parse.unquote(pattern)
             link = "http://f.video.weibocdn.com/" + pattern
-            self.download(link)
+            self.youtube_url = link
+            self.download(self.youtube_url)
             item = TangspiderframeItem()
             item['url'] = link
             # print(item)

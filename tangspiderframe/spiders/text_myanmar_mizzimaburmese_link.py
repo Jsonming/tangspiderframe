@@ -16,7 +16,7 @@ class TextMyanmarMizzimaburmeseLinkSpider(scrapy.Spider):
 
     def parse_url(self, response):
         # print(response.text)
-        next_links = response.xpath('//li[(contains(@class, "pager-next even"))]/a/@href').extract()
+        next_links = response.xpath('//ul[@class="pager"]/li[last()-1]/a/@href').extract()
         for next_link in next_links:
             next_link = "http://www.mizzimaburmese.com" + next_link
             yield scrapy.Request(url=next_link, callback=self.parse_url, dont_filter=True)
