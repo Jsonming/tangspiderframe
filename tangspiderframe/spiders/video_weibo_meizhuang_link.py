@@ -98,7 +98,7 @@ class VideoWeiboLinkSpider(scrapy.Spider):
             path = os.getcwd()
             for file in os.listdir(path):
                 if file.endswith("mp4"):
-                    shutil.move(path + "/" + file, "/data/video" + "/" + file)
+                    shutil.move(path + "\\" + file, "E:\\video" + "\\" + file)
 
     def start_requests(self):
         session = requests.session()
@@ -128,14 +128,12 @@ class VideoWeiboLinkSpider(scrapy.Spider):
 
     def parse(self,response):
         # print("response.url",response.text)
-        url = response.meta["next_link"]
+        n_url = response.meta["next_link"]
         session = requests.session()
         start_url = "https://www.weibo.com/video/second?curr_tab=channel&type=icon&second_level_channel_id=4379553112491547&first_level_channel_id=4379553112491541&first_level_channel_name=时尚美妆&page_title=美妆教程"
         response1 = session.get(url=start_url, headers=self.header)
-        response2 = session.get(url=url, headers=self.header)
+        response2 = session.get(url=n_url, headers=self.header)
         # print(type(url),"url  ",url)
-        # print(response2.content.decode('gbk'))
-        response2 = session.get(url=url, headers=self.header)
         # print(response2.content.decode('gbk'))
 
         cookie = requests.utils.dict_from_cookiejar(response2.cookies)
@@ -159,5 +157,5 @@ class VideoWeiboLinkSpider(scrapy.Spider):
 
         for since_id in since_ids:
             next_link = "https://www.weibo.com/video/aj/second?ajwvr=6&type=icon&second_level_channel_id=4379553112491547&editor_recommend_id=&since_id={since_id}&__rnd=1576742798962".format(since_id=since_id)
-            yield scrapy.Request(url=url, callback=self.parse,cookies=cookie, dont_filter=True,meta={"next_link":next_link})
+            yield scrapy.Request(url=next_link, callback=self.parse,cookies=cookie, dont_filter=True,meta={"next_link":next_link})
 
