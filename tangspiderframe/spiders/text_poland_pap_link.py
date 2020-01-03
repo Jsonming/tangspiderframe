@@ -11,16 +11,17 @@ class TextPolandPapLinkSpider(scrapy.Spider):
         patterns = response.xpath('//li[@class="link"]//a/@href').extract()
         for pattern in patterns:
             link = "https://www.pap.pl"+pattern
-            yield scrapy.Request(url=link, callback=self.parse_url, dont_filter=True)
+            yield scrapy.Request(url=link, callback=self.parse_url, dont_filter=True,meta={"cate_link":link})
 
     def parse_url(self, response):
+        cate_link = response.meta["cate_link"]
         next_links = response.xpath('//li[@class="pager__item pager__item--next"]/a/@href').extract()
         for next_link in next_links:
-            next_link = response.url+next_link
-            yield scrapy.Request(url=next_link, callback=self.parse_url, dont_filter=True)
+            next_link = cate_link+next_link
+            yield scrapy.Request(url=next_link, callback=self.parse_url, dont_filter=True,meta={"cate_link":cate_link})
 
 
-        links = response.xpath('//h2/a/@href').extract()
+        links = response.xpath('//div[@class="imageWrapper"]/a/@href').extract()
         for link in links:
             link = "https://www.pap.pl" + link
             item = TangspiderframeItem()
