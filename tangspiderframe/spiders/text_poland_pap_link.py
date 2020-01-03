@@ -22,6 +22,7 @@ class TextPolandPapLinkSpider(scrapy.Spider):
 
         links = response.xpath('//h2/a/@href').extract()
         for link in links:
+            link = "https://www.pap.pl" + link
             item = TangspiderframeItem()
             item['url'] = link
             # print(item)
