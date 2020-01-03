@@ -8,7 +8,7 @@ class TextPolandPapLinkSpider(scrapy.Spider):
     start_urls = ["https://www.pap.pl/"]
 
     def parse(self, response):
-        patterns = response.xpath('//ul[@class="menu menu--main nav navbar-nav navigation linksList"]/li//a/@href').extract()
+        patterns = response.xpath('//li[@class="link"]//a/@href').extract()
         for pattern in patterns:
             link = "https://www.pap.pl"+pattern
             yield scrapy.Request(url=link, callback=self.parse_url, dont_filter=True)
@@ -20,7 +20,7 @@ class TextPolandPapLinkSpider(scrapy.Spider):
             yield scrapy.Request(url=next_link, callback=self.parse_url, dont_filter=True)
 
 
-        links = response.xpath('//div[@class="textWrapper"]/h2/a/@href').extract()
+        links = response.xpath('//h2/a/@href').extract()
         for link in links:
             item = TangspiderframeItem()
             item['url'] = link
