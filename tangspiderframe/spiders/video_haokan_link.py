@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import os
-import youtube_dl
+# import youtube_dl
 import shutil
 import json
 import time

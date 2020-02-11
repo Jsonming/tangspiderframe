@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from tangspiderframe.items import TangspiderframeItem
 from scrapy_redis.spiders import RedisSpider
-import myanmar
-from myanmar import converter
+# import myanmar
+# from myanmar import converter
 
 
 class TextMyanmarMizzimaburmeseContentSpider(RedisSpider):
