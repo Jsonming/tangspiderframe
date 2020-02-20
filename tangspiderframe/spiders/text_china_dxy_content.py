@@ -43,4 +43,3 @@ class TextChinaDxyContentSpider(scrapy.Spider):
         item['content'] = dialog
         yield item
 
-
