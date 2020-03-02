@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-import scrapy
 import json
 import re
-from tangspiderframe.items import TangspiderframeItem
+
+import emoji
 from scrapy_redis.spiders import RedisSpider
+
+from tangspiderframe.items import TangspiderframeItem
 
 
 class TextChinaDxyContentSpider(RedisSpider):
     name = 'text_china_dxy_content'
     allowed_domains = ['ask.dxy.com']
-    start_urls = ['https://ask.dxy.com/question/3123123']
+    start_urls = ['https://ask.dxy.com/question/2661050']
 
     redis_key = "text_china_dxy_link"
     custom_settings = {
@@ -20,6 +22,15 @@ class TextChinaDxyContentSpider(RedisSpider):
             'db': 0
         },
     }
+
+    def delete_emoji(self, string: str):
+        """
+        删除颜文字
+        :param string:
+        :return:
+        """
+        sub_string = emoji.demojize(string, delimiters=("___", "___"))
+        return re.sub("___(.*?)___", '', sub_string)
 
     def parse(self, response):
         # 结构化内容
@@ -45,6 +56,7 @@ class TextChinaDxyContentSpider(RedisSpider):
             return "\t".join(dialogs)
 
         dialog = parse_dialog(questionDialog)
+        dialog = self.delete_emoji(dialog)
 
         # 疾病类型
         disease = data.get("disease", {}).get("title")
