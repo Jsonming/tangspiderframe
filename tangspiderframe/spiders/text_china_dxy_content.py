@@ -3,15 +3,45 @@ import json
 import re
 
 import emoji
+import scrapy
 from scrapy_redis.spiders import RedisSpider
 
 from tangspiderframe.items import TangspiderframeItem
 
 
-class TextChinaDxyContentSpider(RedisSpider):
+class TextChinaDxyContentSpider(scrapy.Spider):
     name = 'text_china_dxy_content'
     allowed_domains = ['ask.dxy.com']
-    start_urls = ['https://ask.dxy.com/question/2661050']
+    start_urls = [
+        # 'https://ask.dxy.com/question/3199446',
+        # 'https://ask.dxy.com/question/41487822',
+        # 'https://ask.dxy.com/question/2540039',
+        #
+        #
+        # 'https://ask.dxy.com/question/2064694',
+        # 'https://ask.dxy.com/question/46831339',
+        # 'https://ask.dxy.com/question/41494900',
+        #
+        #
+        # 'https://ask.dxy.com/question/45299667',
+        # 'https://ask.dxy.com/question/6100783',
+        # 'https://ask.dxy.com/question/2756049',
+        #
+        #
+        # 'https://ask.dxy.com/question/3591420',
+        # 'https://ask.dxy.com/question/206912',
+        # 'https://ask.dxy.com/question/41859254',
+        #
+        # 'https://ask.dxy.com/question/45298992',
+        # 'https://ask.dxy.com/question/2433041',
+        'https://ask.dxy.com/question/30627620'
+
+        # 'https://ask.dxy.com/question/48035485',
+        # 'https://ask.dxy.com/question/2268779',
+        # 'https://ask.dxy.com/question/40460294'
+
+
+        ]
 
     redis_key = "text_china_dxy_link"
     custom_settings = {
@@ -64,4 +94,7 @@ class TextChinaDxyContentSpider(RedisSpider):
         item['url'] = response.url
         item['category'] = disease
         item['content'] = dialog
-        yield item
+        # yield item
+
+        with open('demo.txt', 'a', encoding='utf8')as f:
+            f.write('\t'.join([disease, dialog]) + "\n")
