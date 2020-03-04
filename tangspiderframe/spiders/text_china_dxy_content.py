@@ -9,7 +9,7 @@ from scrapy_redis.spiders import RedisSpider
 from tangspiderframe.items import TangspiderframeItem
 
 
-class TextChinaDxyContentSpider(scrapy.Spider):
+class TextChinaDxyContentSpider(RedisSpider):
     name = 'text_china_dxy_content'
     allowed_domains = ['ask.dxy.com']
     start_urls = [
@@ -94,7 +94,5 @@ class TextChinaDxyContentSpider(scrapy.Spider):
         item['url'] = response.url
         item['category'] = disease
         item['content'] = dialog
-        # yield item
+        yield item
 
-        with open('demo.txt', 'a', encoding='utf8')as f:
-            f.write('\t'.join([disease, dialog]) + "\n")
