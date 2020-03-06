@@ -58,7 +58,7 @@ class TextChinaDxyContentSpider(scrapy.Spider):
     def get_link(self):
         links = []
         ssdb_con = SSDBCon().connection()
-        for i in range(60):
+        for i in range(50):
             links.append(ssdb_con.lpop("text_china_dxy_link"))
         return links
 
