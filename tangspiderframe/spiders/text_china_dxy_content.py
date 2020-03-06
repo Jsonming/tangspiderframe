@@ -47,11 +47,15 @@ class TextChinaDxyContentSpider(RedisSpider):
     custom_settings = {
         'REDIS_HOST': '123.56.11.156',
         'REDIS_PORT': 8888,
+        "DOWNLOAD_DELAY": 4,
         'REDIS_PARAMS': {
             'password': '',
             'db': 0
         },
     }
+
+    def get_link(self):
+        pass
 
     def delete_emoji(self, string: str):
         """
