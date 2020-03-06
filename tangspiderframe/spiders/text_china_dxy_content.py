@@ -4,12 +4,12 @@ import re
 
 import emoji
 import scrapy
-from scrapy_redis.spiders import RedisSpider
 
+from tangspiderframe.common.db import SSDBCon
 from tangspiderframe.items import TangspiderframeItem
 
 
-class TextChinaDxyContentSpider(RedisSpider):
+class TextChinaDxyContentSpider(scrapy.Spider):
     name = 'text_china_dxy_content'
     allowed_domains = ['ask.dxy.com']
     start_urls = [
@@ -34,28 +34,33 @@ class TextChinaDxyContentSpider(RedisSpider):
         #
         # 'https://ask.dxy.com/question/45298992',
         # 'https://ask.dxy.com/question/2433041',
-        'https://ask.dxy.com/question/30627620'
+        # 'https://ask.dxy.com/question/30627620'
 
         # 'https://ask.dxy.com/question/48035485',
         # 'https://ask.dxy.com/question/2268779',
         # 'https://ask.dxy.com/question/40460294'
 
+        'https://ask.dxy.com/question/1916011'
 
-        ]
+    ]
 
-    redis_key = "text_china_dxy_link"
-    custom_settings = {
-        'REDIS_HOST': '123.56.11.156',
-        'REDIS_PORT': 8888,
-        "DOWNLOAD_DELAY": 4,
-        'REDIS_PARAMS': {
-            'password': '',
-            'db': 0
-        },
-    }
+    # redis_key = "text_china_dxy_link"
+    # custom_settings = {
+    #     'REDIS_HOST': '123.56.11.156',
+    #     'REDIS_PORT': 8888,
+    #     "DOWNLOAD_DELAY": 4,
+    #     'REDIS_PARAMS': {
+    #         'password': '',
+    #         'db': 0
+    #     },
+    # }
 
     def get_link(self):
-        pass
+        links = []
+        ssdb_con = SSDBCon().connection()
+        for i in range(3):
+            links.append(ssdb_con.lpop("text_china_dxy_link"))
+        return links
 
     def delete_emoji(self, string: str):
         """
@@ -65,6 +70,13 @@ class TextChinaDxyContentSpider(RedisSpider):
         """
         sub_string = emoji.demojize(string, delimiters=("___", "___"))
         return re.sub("___(.*?)___", '', sub_string)
+
+    def start_requests(self):
+        links = self.get_link()
+        for link in links:
+            link = link.decode('utf8')
+            print(link)
+            yield scrapy.Request(url=link, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
         # 结构化内容
@@ -99,4 +111,3 @@ class TextChinaDxyContentSpider(RedisSpider):
         item['category'] = disease
         item['content'] = dialog
         yield item
-
