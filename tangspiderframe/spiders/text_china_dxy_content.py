@@ -16,17 +16,14 @@ class TextChinaDxyContentSpider(scrapy.Spider):
         # 'https://ask.dxy.com/question/3199446',
         # 'https://ask.dxy.com/question/41487822',
         # 'https://ask.dxy.com/question/2540039',
-        #
-        #
+
         # 'https://ask.dxy.com/question/2064694',
         # 'https://ask.dxy.com/question/46831339',
         # 'https://ask.dxy.com/question/41494900',
         #
-        #
         # 'https://ask.dxy.com/question/45299667',
         # 'https://ask.dxy.com/question/6100783',
         # 'https://ask.dxy.com/question/2756049',
-        #
         #
         # 'https://ask.dxy.com/question/3591420',
         # 'https://ask.dxy.com/question/206912',
@@ -35,11 +32,11 @@ class TextChinaDxyContentSpider(scrapy.Spider):
         # 'https://ask.dxy.com/question/45298992',
         # 'https://ask.dxy.com/question/2433041',
         # 'https://ask.dxy.com/question/30627620'
-
+        #
         # 'https://ask.dxy.com/question/48035485',
         # 'https://ask.dxy.com/question/2268779',
         # 'https://ask.dxy.com/question/40460294'
-
+        #
         'https://ask.dxy.com/question/1916011'
 
     ]
@@ -75,7 +72,6 @@ class TextChinaDxyContentSpider(scrapy.Spider):
         links = self.get_link()
         for link in links:
             link = link.decode('utf8')
-            print(link)
             yield scrapy.Request(url=link, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
@@ -94,6 +90,8 @@ class TextChinaDxyContentSpider(scrapy.Spider):
                 dialog_type = dialog.get("type")
                 dialog_content = dialog.get("content")
                 dialog_content = re.sub("<.*?>|\n|\t|\r", "", dialog_content)
+                if not dialog_content:
+                    dialog_content = dialog.get("dialog_audio", {}).get("audio_text")
                 if dialog_type:
                     new_content = "doctor:" + dialog_content
                 else:
@@ -104,10 +102,10 @@ class TextChinaDxyContentSpider(scrapy.Spider):
         dialog = parse_dialog(questionDialog)
         dialog = self.delete_emoji(dialog)
 
-        # 疾病类型
         disease = data.get("disease", {}).get("title")
         item = TangspiderframeItem()
         item['url'] = response.url
         item['category'] = disease
         item['content'] = dialog
         yield item
+
