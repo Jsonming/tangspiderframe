@@ -14,8 +14,8 @@ import logging
 # 配置参数即可, 爬虫名称，
 confs = [
     {
-        "spider_name": "it",
-        "sleep": 2,
+        "spider_name": "text_china_dxy_content",
+        "sleep": 600,
     },
 ]
 
