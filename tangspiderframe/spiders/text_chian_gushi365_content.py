@@ -25,7 +25,7 @@ class TextChianGushi365ContentSpider(RedisSpider):
         header_h = response.xpath('//h1/text()').extract()
         title = "".join(header_h)
         content_p = response.xpath('//div[@class="single-content"]//p//text()').extract()
-        content = "".join(content_p)
+        content = "".join([p.strip() for p in content_p])
         item = TangspiderframeItem()
         item['url'] = response.url
         item['category'] = category
