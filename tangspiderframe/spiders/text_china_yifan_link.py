@@ -7,10 +7,10 @@ class TextChinaYifanLinkSpider(scrapy.Spider):
     name = 'text_china_yifan_link'
     allowed_domains = ['www.yifanfx.com']
     start_urls = [
-        'http://www.yifanfx.com/ertongshuiqiangushi/',
+        # 'http://www.yifanfx.com/ertongshuiqiangushi/',
         # 'http://www.yifanfx.com/jingdianertonggushi/',
         # 'http://www.yifanfx.com/ertonggushidaquan/',
-        # 'http://www.yifanfx.com/gelintonghua/',
+        'http://www.yifanfx.com/gelintonghua/',
 
     ]
 
@@ -24,7 +24,7 @@ class TextChinaYifanLinkSpider(scrapy.Spider):
 
         page = response.meta.get("page", 1)
         if page <= 689:
-            url = "http://www.yifanfx.com/ertongshuiqiangushi/list_1_{}.html".format(page + 1)
+            url = "http://www.yifanfx.com/gelintonghua/list_4_{}.html".format(page + 1)
             yield scrapy.Request(url=url, dont_filter=True, callback=self.parse, meta={"page": page + 1})
 
 
