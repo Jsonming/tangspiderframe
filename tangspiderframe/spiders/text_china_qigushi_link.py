@@ -9,17 +9,17 @@ class TextChinaQigushiLinkSpider(scrapy.Spider):
     start_urls = [
         # 'http://www.qigushi.com/tonghuagushi/',
         # 'http://www.qigushi.com/chengyugushi/',
-        'http://www.qigushi.com/yuyangushi/',
-        'http://www.qigushi.com/shenhuagushi/'
-        'http://www.qigushi.com/gudaigushi/',
+        # 'http://www.qigushi.com/yuyangushi/',
+        # 'http://www.qigushi.com/shenhuagushi/'
+        # 'http://www.qigushi.com/gudaigushi/',
 
-        'http://www.qigushi.com/shuiqian/',
-        'http://www.qigushi.com/baobao/',
-        'http://www.qigushi.com/zheligushi/',
-        'http://www.qigushi.com/mingren/',
-        'http://www.qigushi.com/1001/',
-        'http://www.qigushi.com/gelin/',
-        'http://www.qigushi.com/ats/',
+        # 'http://www.qigushi.com/shuiqian/',
+        # 'http://www.qigushi.com/baobao/',
+        # 'http://www.qigushi.com/zheligushi/',
+        # 'http://www.qigushi.com/mingren/',
+        # 'http://www.qigushi.com/1001/',
+        # 'http://www.qigushi.com/gelin/',
+        # 'http://www.qigushi.com/ats/',
         'http://www.qigushi.com/aiguogushi/',
     ]
 
@@ -33,5 +33,5 @@ class TextChinaQigushiLinkSpider(scrapy.Spider):
 
         page = response.meta.get("page", 1)
         if page <= 51:
-            url = "http://www.qigushi.com/tonghuagushi/index_{}.html".format(page + 1)
+            url = "http://www.qigushi.com/aiguogushi/index_{}.html".format(page + 1)
             yield scrapy.Request(url=url, dont_filter=True, callback=self.parse, meta={"page": page + 1})
