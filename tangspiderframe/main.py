@@ -8,4 +8,4 @@
 
 from scrapy import cmdline
 
-cmdline.execute("scrapy crawl text_china_haodf_content".split())
+cmdline.execute("scrapy crawl text_china_chinadaily_link".split())
