@@ -6,7 +6,7 @@ from tangspiderframe.items import TangspiderframeItem
 class TextChinaZidianwordLinkSpider(scrapy.Spider):
     name = 'text_china_zidianword_link'
     allowed_domains = ['zidian.miaochaxun.com']
-    start_urls = ['http://zidian.miaochaxun.com/duoyinzi.html']
+    start_urls = ['http://zidian.miaochaxun.com/duoyinzi_11.html']
 
     def parse(self, response):
         item_li = response.xpath('//div[@class="mcon f14 bt"]/ul/li')
