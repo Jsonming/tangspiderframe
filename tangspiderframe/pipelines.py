@@ -53,13 +53,13 @@ class SSDBPipeline(object):
             else:
                 print("url重复")
         elif spider.name.endswith("content"):
-            # 如果没有抓到content 将连接存爬虫同名列表
             if not item.get("content"):
+                # 如果没有抓到content 将连接存爬虫同名列表
                 self.ssdb_conn.insert_to_list(spider.name, item["url"])
             else:
-                # 如果该content链接没有抓取过，将url存入指纹库中 如果已经抓过，将item中重复字段改为True
-                if not self.ssdb_conn.exist_finger(spider.name, item["url"]):
-                    self.ssdb_conn.insert_finger(spider.name, item["url"])
+                # 如果该content链接没有抓取过，将url + content 存入指纹库中 如果已经抓过，将item中重复字段改为True
+                if not self.ssdb_conn.exist_finger(spider.name, item["url"] + item.get("content")):
+                    self.ssdb_conn.insert_finger(spider.name, item["url"] + item.get("content"))
                 else:
                     item["repeat"] = True
         return item
