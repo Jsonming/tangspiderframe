@@ -17,13 +17,13 @@ class TextGermanWikiipaContentSpider(scrapy.Spider):
         ssdb_con = SSDBCon().connection()
         for i in range(220000):
             keyword = ssdb_con.lpop("dewiki_ipa_urls").decode("utf8")
-            url = "https://de.wiktionary.org/w/index.php?search={}&title=Spezial%3ASuche&go=Seite&wprov=acrw1_0".format(
+            url = "https://de.wiktionary.org/w/index.php?search={}".format(
                 urllib.parse.quote(keyword))
             yield scrapy.Request(url=url, callback=self.parse, dont_filter=True, meta={"keyword": keyword})
         ssdb_con.close()
 
     def parse(self, response):
-        ipa_content = response.xpath("""//*[@id="mw-content-text"]/div/dl[2]/dd[1]/span/text()""").extract()
+        ipa_content = response.xpath("""//*[@id="mw-content-text"]//span[@class="ipa"]/text()""").extract()
         keyword = response.meta.get("keyword")
         show_word = urllib.parse.unquote(response.url).split("/")[-1]
         item = TangspiderframeItem()

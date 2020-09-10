@@ -9,7 +9,7 @@ class TextChinaZidianwordContentSpider(RedisSpider):
     allowed_domains = ['zidian.miaochaxun.com/duoyinzi.html']
     start_urls = ['http://chengyu.miaochaxun.com/zuci_Azqd66xGde7g.html']
 
-    redis_key = "text_china_zidianword_content"
+    redis_key = "text_china_zidianword_link"
     custom_settings = {
         'REDIS_HOST': '123.56.11.156',
         'REDIS_PORT': 8888,
