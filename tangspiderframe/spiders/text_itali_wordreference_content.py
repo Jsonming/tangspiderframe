@@ -11,7 +11,7 @@ class TextItaliWordreferenceContentSpider(scrapy.Spider):
 
     def start_requests(self):
         ssdb_con = SSDBCon().connection()
-        for i in range(10):
+        for i in range(2000):
             item = ssdb_con.rpop("text_itali_wordreference_link")
             if item:
                 word = item.decode("utf8")
